@@ -19,6 +19,13 @@
     <Version>3.1.0</Version>
   </PropertyGroup>
   
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>TRACE;PORTABLE;RELEASE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
+    <DocumentationFile>bin\Release\netstandard2.0\Lottie.Forms.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;PORTABLE;DEBUG;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
     <Compile Remove="Platforms\**\*.cs" />
@@ -50,7 +57,7 @@
     <Compile Include="Platforms\Apple\**\*.cs" />
     <Compile Include="Platforms\Ios\**\*.cs" />
     <Compile Include="Platforms\Xamarin\**\*.cs" />
-    <PackageReference Condition=" '$(Configuration)' == 'Release' " Include="Com.Airbnb.iOS.Lottie" Version="2.5.10" />
+    <ProjectReference Condition=" '$(Configuration)' == 'Release' " Include="..\Lottie.iOS\Lottie.iOS.csproj" />
 	  <ProjectReference Condition=" '$(Configuration)' == 'Debug' " Include="..\Lottie.iOS\Lottie.iOS.csproj" />
   </ItemGroup>
 
@@ -58,7 +65,7 @@
     <Compile Include="Platforms\Apple\**\*.cs" />
     <Compile Include="Platforms\Mac\**\*.cs" />
     <Compile Include="Platforms\Xamarin\**\*.cs" />
-    <PackageReference Condition=" '$(Configuration)' == 'Release' " Include="Com.Airbnb.iOS.Lottie" Version="2.5.10" />
+    <ProjectReference Condition=" '$(Configuration)' == 'Release' " Include="..\Lottie.iOS\Lottie.iOS.csproj" />
     <ProjectReference Condition=" '$(Configuration)' == 'Debug' " Include="..\Lottie.iOS\Lottie.iOS.csproj" />
   </ItemGroup>
 
@@ -66,7 +73,7 @@
     <Compile Include="Platforms\Apple\**\*.cs" />
     <Compile Include="Platforms\Tvos\**\*.cs" />
     <Compile Include="Platforms\Xamarin\**\*.cs" />
-    <PackageReference Condition=" '$(Configuration)' == 'Release' " Include="Com.Airbnb.iOS.Lottie" Version="2.5.10" />
+    <ProjectReference Condition=" '$(Configuration)' == 'Release' " Include="..\Lottie.iOS\Lottie.iOS.csproj" />
     <ProjectReference Condition=" '$(Configuration)' == 'Debug' " Include="..\Lottie.iOS\Lottie.iOS.csproj" />
   </ItemGroup>
 
