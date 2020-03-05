@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Net;
 using Com.Airbnb.Lottie;
 using Lottie.Forms;
 using Lottie.Forms.Droid;
@@ -38,7 +39,8 @@ namespace Lottie.Forms.Droid
             if (Control == null)
             {
                 _animationView = new LottieAnimationView(Context);
-                _animatorListener = new AnimatorListener(PlaybackFinished);
+                //_animatorListener = new AnimatorListener(PlaybackFinished);
+                _animatorListener = new AnimatorListener(Play);
                 _animationView.AddAnimatorListener(_animatorListener);
 
                 SetNativeControl(_animationView);
@@ -70,12 +72,40 @@ namespace Lottie.Forms.Droid
 
                 if (!string.IsNullOrEmpty(e.NewElement.Animation))
                 {
-                    _animationView.SetAnimation(e.NewElement.Animation);
+                    SetAnimation(Element);
                     Element.Duration = TimeSpan.FromMilliseconds(_animationView.Duration);
                 }
 
                 if (e.NewElement.AutoPlay || e.NewElement.IsPlaying) 
                     _animationView.PlayAnimation();
+            }
+        }
+
+        private void SetAnimation(AnimationView element)
+        {
+            if (element?.IsLocal == false)
+            {
+                using (var wc = new WebClient())
+                {
+                    try
+                    {
+                        var json = wc.DownloadString(element?.Animation);
+
+                        LottieComposition.Factory.FromJsonString(json, (composition) =>
+                        {
+                            _animationView.Composition = composition;
+                            _animationView.PlayAnimation();
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e);
+                    }
+                }
+            }
+            else
+            {
+                _animationView.SetAnimation(element?.Animation);
             }
         }
 
@@ -156,6 +186,11 @@ namespace Lottie.Forms.Droid
             Element?.PlaybackFinished();
         }
 
+        private void Play()
+        {
+            SetAnimation(Element);
+        }
+
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (_animationView == null || Element == null)
@@ -163,7 +198,7 @@ namespace Lottie.Forms.Droid
 
             if (e.PropertyName == AnimationView.AnimationProperty.PropertyName && !string.IsNullOrEmpty(Element.Animation))
             {
-                _animationView.SetAnimation(Element.Animation);
+                SetAnimation(Element);
                 Element.Duration = TimeSpan.FromMilliseconds(_animationView.Duration);
 
                 if (Element.AutoPlay || Element.IsPlaying) 

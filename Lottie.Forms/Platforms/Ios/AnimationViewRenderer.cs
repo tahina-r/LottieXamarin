@@ -123,7 +123,8 @@ namespace Lottie.Forms.iOS.Renderers
 
         private void InitAnimationViewForElement(AnimationView theElement)
         {
-            _animationView = new LOTAnimationView(NSUrl.FromFilename(theElement.Animation))
+            var file = theElement.IsLocal ? NSUrl.FromFilename(theElement.Animation) : new NSUrl(theElement.Animation);
+            _animationView = new LOTAnimationView(file)
             {
                 AutoresizingMask = UIViewAutoresizing.All,
                 ContentMode = UIViewContentMode.ScaleAspectFit,

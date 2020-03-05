@@ -8,6 +8,9 @@ namespace Lottie.Forms
 {
     public class AnimationView : View
     {
+        public static readonly BindableProperty IsLocalProperty = BindableProperty.Create(nameof(IsLocal),
+            typeof(bool), typeof(AnimationView), default(bool));
+
         public static readonly BindableProperty ProgressProperty = BindableProperty.Create(nameof(Progress),
             typeof(float), typeof(AnimationView), default(float));
 
@@ -44,6 +47,13 @@ namespace Lottie.Forms
 
         public static readonly BindableProperty HardwareAccelerationProperty = BindableProperty.Create(nameof(HardwareAcceleration),
             typeof(bool), typeof(AnimationView), default(bool));
+
+        public bool IsLocal
+        {
+            get { return (bool)GetValue(IsLocalProperty); }
+
+            set { SetValue(IsLocalProperty, value); }
+        }
 
         public float Progress
         {
